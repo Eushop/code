@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <title>R4 Example</title>
+    <!-- Required meta tags -->
+    <meta charset="UTF-8">
+    <meta name="R4" content="R4">
+    <meta name="Example" content="Example Table">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+  </head>
+    <body >
+      <br<div class="container">
+        <div class="row">
+          <div class="col-md-2"><label class="text-uppercase" for='ciudad'>Ciudad</label><input class="form-control" placeholder="Campo de texto" id='ciudad' type='text' name='ciudad'></div>
+          <div class="col-md-2"><button  class="btn btn-outline-primary" id="consultar">consultar<button</div>
+        </div>
+        <div class="row">
+          <div class="col"></div>
+          <div class="col-md-12">   
+            <table id="tabla" class="table table-responsive table-striped ">
+                <thead>
+                  <tr>
+                    <th>Ciudad</th>
+                    <th>location</th>
+                    <th>location</th>
+                    <th>location</th>
+                  </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      
+    </body>
+</html>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script
+  src="https://code.jquery.com/jquery-3.4.1.js"
+  integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+  crossorigin="anonymous"></script>
+<script>
+  $(document).ready(function () {  
+    $("#consultar").click(function (){
+      var city = $("#ciudad").val();
+      $.ajax({
+      url: 'http://api.weatherstack.com/current',
+      data: {
+        access_key: 'ec0d914bb9b097633bb28c5d0757e8ee',
+        query: city
+      },
+      dataType: 'json',
+      success: function(data) {
+        console.log(`Current temperature in ${data.location.name} is ${data.current.temperature}℃`);
+        console.log(data.current);
+        var clima =data.current;
+        //$.each(data, function(i,data){
+          console.log(data.current);
+                       var row = "<tr>"+
+                        "<td>" + city + "</td>" +
+                      "<td>" + clima.temperature + "</td>" + 
+                      "<td>" + clima.humidity + "</td>" +
+                      "<td>" + clima.precip + "</td>" +
+                      "<td><img src='" + clima.weather_icons[0] + "'> </td>" +
+                      "</tr>";						 
+                      $("#tabla>tbody").append(row); 
+        //          });
+      }
+    });
+    })
+  }); 
+</script>
